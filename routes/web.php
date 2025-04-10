@@ -38,16 +38,16 @@ Route::middleware('auth')->group(function () {
 // не готовы
 Route::get('messages', function () {
     return view('messages');
-})->name('messages.create');
+})->name('messages.create')->middleware('auth');
 Route::get('no-results', function () {
-    return view('no-results');
+    return view('no-results')->middleware('auth');
 });
 Route::get('popular', function () {
-    return view('popular');
+    return view('popular')->middleware('auth');
 });
 Route::get('profile', function () {
-    return view('profile');
-})->name('profile');
+    return view('profile')->middleware('auth');
+})->name('profile')->middleware('auth');
 Route::get('search-results', function () {
-    return view('search-results');
+    return view('search-results')->middleware('auth');
 });
