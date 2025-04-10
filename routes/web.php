@@ -46,8 +46,8 @@ Route::get('popular', function () {
     return view('popular');
 })->middleware('auth');
 Route::get('profile', function () {
-    return view('profile')->middleware('auth');
-})->name('profile')->middleware('auth');
+    return view('profile');
+})->name('profile')->middleware('auth');;
 Route::get('search-results', function () {
     return view('search-results');
 })->middleware('auth');

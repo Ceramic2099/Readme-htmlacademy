@@ -47,7 +47,11 @@
                             <a class="header__profile-link" href={{url('profile')}}>
                                 <div class="header__avatar-wrapper">
                                     <img class="header__profile-avatar"
-                                         src="{{ Storage::url(Auth::user()->avatar) ?? asset('img/userpic.jpg') }}"
+                                         @if(Auth::user()->avatar)
+                                             src="{{Storage::url(Auth::user()->avatar)}}"
+                                         @else
+                                             src="{{asset('img/userpic.jpg')}}"
+                                         @endif
                                          alt="Аватар профиля">
                                 </div>
                                 <div class="header__profile-name">
