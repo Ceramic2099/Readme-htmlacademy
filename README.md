@@ -45,7 +45,10 @@
     sail artisan migrate
     ```
     ```sh
-    vite dev
+    sail artisan storage:link
+    ```
+     ```sh
+    npm run dev
     ```
 
 ## Лицензия
