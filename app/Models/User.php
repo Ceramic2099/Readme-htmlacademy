@@ -9,10 +9,14 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * Class User
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -24,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $avatar
  * @property int|null $subscriber_id
  * @property int|null $message_id
- * 
+ *
  * @property User|null $user
  * @property Collection|Comment[] $comments
  * @property Collection|Like[] $likes
@@ -35,64 +39,62 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class User extends Model
+class User extends Authenticatable
 {
-	protected $table = 'users';
+    use HasApiTokens, HasFactory, Notifiable;
 
-	protected $casts = [
-		'email_verified_at' => 'datetime',
-		'subscriber_id' => 'int',
-		'message_id' => 'int'
-	];
+    protected $table = 'users';
 
-	protected $hidden = [
-		'password',
-		'remember_token'
-	];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'subscriber_id' => 'int',
+        'message_id' => 'int'
+    ];
 
-	protected $fillable = [
-		'name',
-		'email',
-		'email_verified_at',
-		'password',
-		'remember_token',
-		'avatar',
-		'subscriber_id',
-		'message_id'
-	];
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
 
-	public function user()
-	{
-		return $this->belongsTo(User::class, 'subscriber_id');
-	}
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'avatar',
+    ];
 
-	public function comments()
-	{
-		return $this->hasMany(Comment::class);
-	}
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'subscriber_id');
+    }
 
-	public function likes()
-	{
-		return $this->hasMany(Like::class);
-	}
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
-	public function messages()
-	{
-		return $this->hasMany(Message::class);
-	}
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 
-	public function posts()
-	{
-		return $this->hasMany(Post::class);
-	}
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 
-	public function subscribes()
-	{
-		return $this->hasMany(Subscribe::class);
-	}
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 
-	public function users()
-	{
-		return $this->hasMany(User::class, 'subscriber_id');
-	}
+    public function subscribes()
+    {
+        return $this->hasMany(Subscribe::class);
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'subscriber_id');
+    }
 }

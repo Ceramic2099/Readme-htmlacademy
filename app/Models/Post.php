@@ -12,19 +12,20 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Post
- * 
+ *
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string $title
  * @property string $body
+ * @property string $author
  * @property string|null $image
  * @property string|null $video_link
  * @property string|null $link
  * @property int|null $views
  * @property int $user_id
  * @property int $content_type_id
- * 
+ *
  * @property ContentType $content_type
  * @property User $user
  * @property Collection|Comment[] $comments
@@ -35,49 +36,50 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Post extends Model
 {
-	protected $table = 'posts';
+    protected $table = 'posts';
 
-	protected $casts = [
-		'views' => 'int',
-		'user_id' => 'int',
-		'content_type_id' => 'int'
-	];
+    protected $casts = [
+        'views' => 'int',
+        'user_id' => 'int',
+        'content_type_id' => 'int'
+    ];
 
-	protected $fillable = [
-		'title',
-		'body',
-		'image',
-		'video_link',
-		'link',
-		'views',
-		'user_id',
-		'content_type_id'
-	];
+    protected $fillable = [
+        'title',
+        'body',
+        'image',
+        'video_link',
+        'link',
+        'views',
+        'user_id',
+        'content_type_id',
+        'author'
+    ];
 
-	public function content_type()
-	{
-		return $this->belongsTo(ContentType::class);
-	}
+    public function content_type()
+    {
+        return $this->belongsTo(ContentType::class);
+    }
 
-	public function user()
-	{
-		return $this->belongsTo(User::class);
-	}
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-	public function comments()
-	{
-		return $this->hasMany(Comment::class);
-	}
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
-	public function likes()
-	{
-		return $this->hasMany(Like::class);
-	}
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 
-	public function hashtags()
-	{
-		return $this->belongsToMany(Hashtag::class, 'post_hashtag')
-					->withPivot('id')
-					->withTimestamps();
-	}
+    public function hashtags()
+    {
+        return $this->belongsToMany(Hashtag::class, 'post_hashtag')
+            ->withPivot('id')
+            ->withTimestamps();
+    }
 }

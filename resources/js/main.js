@@ -2,6 +2,8 @@
 
 'use script';
 
+import Dropzone from "dropzone";
+
 (function () {
   var ESC_KEYCODE = 27;
 
@@ -87,17 +89,17 @@
 
   var inputsFile = document.querySelectorAll('input[type="file"]');
 
-  if (inputsFile) {
-    var addClickListener = function (inputFile) {
-      inputFile.addEventListener('click', function (evt) {
-        evt.preventDefault();
-      });
-    }
-
-    for (var i = 0; i < inputsFile.length; i++) {
-      addClickListener(inputsFile[i]);
-    }
-  }
+  // if (inputsFile) {
+  //   var addClickListener = function (inputFile) {
+  //     inputFile.addEventListener('click', function (evt) {
+  //       evt.preventDefault();
+  //     });
+  //   }
+  //
+  //   for (var i = 0; i < inputsFile.length; i++) {
+  //     addClickListener(inputsFile[i]);
+  //   }
+  // }
 
   Dropzone.autoDiscover = false;
 

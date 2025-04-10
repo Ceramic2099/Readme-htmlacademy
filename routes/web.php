@@ -1,49 +1,53 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FeedController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('main');
+})->name('main');
+Route::get('login', function () {
+    return view('login');
+})->name('login')->middleware('guest');
+Route::get('registration', function () {
+    return view('registration');
+})->middleware('guest');
+
+Route::controller(AuthController::class)
+    ->group(function () {
+        Route::post('/', 'login')->name('auth.login')->middleware('guest');
+        Route::post('registration', 'register')->name('auth.register')->middleware('guest');;
+        Route::get('logout','logout')->name('auth.logout')->middleware('auth');
+        Route::post('login', 'login')->name('auth.login')->middleware('guest');
+    });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/posts/create/{type}', [PostController::class, 'create'])->name('posts.create');
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 });
-Route::get('adding-post', function () {
-    return view('adding-post');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/feed', [FeedController::class, 'index'])->name('home');
+    Route::get('/feed/{type}', [FeedController::class, 'filterByType'])->name('feed.filter');
+
 });
-Route::get('feed', function () {
-    return view('feed');
-});
-//Route::get('login', function () {
-//    return view('login');
-//});
-//Route::get('login-validation', function () {
-//    return view('login-validation');
-//});
+
+// не готовы
 Route::get('messages', function () {
     return view('messages');
-});
-Route::get('modal', function () {
-    return view('modal');
-});
-Route::get('no-content', function () {
-    return view('no-content');
-});
+})->name('messages.create');
 Route::get('no-results', function () {
     return view('no-results');
 });
 Route::get('popular', function () {
     return view('popular');
 });
-Route::get('post-detail', function () {
-    return view('post-detail');
-});
 Route::get('profile', function () {
     return view('profile');
-});
-Route::get('reg-validation', function () {
-    return view('reg-validation');
-});
-Route::get('registration', function () {
-    return view('registration');
-});
+})->name('profile');
 Route::get('search-results', function () {
     return view('search-results');
 });
